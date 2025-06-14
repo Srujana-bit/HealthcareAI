@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">Create an Account</h2>
+
+          <!-- Sign‑up Form -->
+          <form method="POST" action="{{ url_for('signup') }}">
+            <!-- Username -->
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input id="username" name="username" type="text"
+                     class="form-control" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input id="password" name="password" type="password"
+                     class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Sign Up</button>
+          </form>
+
+          <div class="text-center mt-3">
+            <a href="{{ url_for('login') }}">Already have an account? Login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

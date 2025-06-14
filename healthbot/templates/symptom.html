@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4 text-center">🩺 Symptom Checker</h2>
+
+  <form method="POST" class="card p-4 shadow-sm mx-auto" style="max-width: 600px;">
+    <div class="mb-3">
+      <label for="symptom" class="form-label">Enter a symptom</label>
+      <input type="text" name="symptom" class="form-control" placeholder="e.g., headache, fatigue" required>
+    </div>
+    <button type="submit" class="btn btn-warning w-100">Check Possible Conditions</button>
+  </form>
+{% if result %}
+  <div class="alert alert-info mt-3">
+    <strong>AI thinks you might have:</strong>
+    <ul class="mt-2">
+      {% for diagnosis, explanation in result %}
+        <li>{{ diagnosis }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+
+</div>
+{% endblock %}

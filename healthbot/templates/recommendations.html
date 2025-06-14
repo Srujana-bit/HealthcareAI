@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<div class="container py-5">
+  <h2 class="text-center mb-4">💡 AI Health Recommendations</h2>
+
+  <div class="card p-4 shadow-sm mx-auto" style="max-width: 700px;">
+    <form action="{{ url_for('recommendations') }}" method="POST">
+      <div class="mb-3">
+        <label for="condition" class="form-label">Enter a health condition</label>
+        <input
+          type="text"
+          class="form-control"
+          id="condition"
+          name="condition"
+          value="{{ request.form.condition or '' }}"
+          placeholder="e.g., diabetes, asthma"
+          required
+        >
+      </div>
+      <button type="submit" class="btn btn-success w-100">Get Recommendations</button>
+    </form>
+
+    {% if error %}
+      <div class="alert alert-danger mt-3">{{ error }}</div>
+    {% endif %}
+
+ {% if tips is defined %}
+  <div class="mt-4">
+    {% if tips and "⚠️" not in tips[0] %}
+      <div class="alert alert-info p-3 rounded">
+        <strong>Recommended Tips:</strong>
+        <ul class="mb-0">
+          {% for tip ,explanation in tips %}
+            {% if "No additional" not in tip %}
+              <li><span class="me-1">✅</span><strong>{{ tip }}</strong></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <div class="alert alert-warning p-3 rounded">
+        {{ tips[0][0] if tips else "No tips found for the given condition." }}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% if explanations is defined and explanations %}
+  <div class="mt-4">
+    <div class="alert alert-secondary p-3 rounded">
+      <strong>🧠 AI Thinks You Might Have:</strong>
+      <ul class="mb-0">
+        {% for name, explanation in explanations %}
+          <li><strong>{{ name }}:</strong> {{ explanation }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endif %}
+</div>
+</div> <!-- End of content container -->
+{% endblock %}

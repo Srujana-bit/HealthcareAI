@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+venv/
+env/
+ENV/
+
+# Model files (if you want to exclude large ML models)
+*.pkl
+
+# User data or logs
+users.txt
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Static files cache or build
+*.egg-info/
+dist/
+build/
