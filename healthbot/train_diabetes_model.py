@@ -1,33 +1,34 @@
-from sklearn.datasets import load_diabetes
+import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import Binarizer
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import joblib
-import numpy as np
+import os
 
-# Load dataset
-data = load_diabetes()
-X = data.data
-y_raw = data.target
+# Load the dataset
+df = pd.read_csv("diabetes.csv")  # Update path if needed
 
-# Convert regression target to binary (for classification model)
-# We'll assume a simple rule: high risk if target > 140
-binarizer = Binarizer(threshold=140)
-y = binarizer.fit_transform(y_raw.reshape(-1, 1)).ravel()
+# Clean missing data
+df.dropna(inplace=True)
 
-# Train/test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Feature set and target
+X = df.drop('Outcome', axis=1)
+y = df['Outcome']
 
-# Train model
-model = LogisticRegression(max_iter=1000)
+# Split into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+
+# Create and train the model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
 
-# Evaluate
-y_pred = model.predict(X_test)
-acc = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {acc:.2f}")
+# Make predictions and evaluate
+predictions = model.predict(X_test)
+accuracy = accuracy_score(y_test, predictions)
+print(f"✅ Diabetes Model Accuracy: {accuracy:.2f}")
 
-# Save model to file
-joblib.dump(model, 'models/diabetes_model.pkl')
+# Save the model to a .pkl file
+os.makedirs("models", exist_ok=True)
+joblib.dump(model, "models/diabetes_model.pkl")
 print("✅ Model saved to models/diabetes_model.pkl")

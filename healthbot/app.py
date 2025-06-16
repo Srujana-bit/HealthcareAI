@@ -142,8 +142,7 @@ def diagnosis():
                     float(form["bmi"]),
                     float(form["diabetes_pedigree"]),
                     float(form["age"]),
-                    float(form["physical_activity"]),
-                    float(form["diet"])
+                    
                 ]
                 diabetes_result = "Positive" if diabetes_model.predict([features])[0] else "Negative"
             except (KeyError, ValueError) as e:
